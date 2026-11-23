@@ -1,0 +1,10 @@
+<ul class="post-list">
+  {% for page in pages %}
+  <li>
+    <time datetime="{{ page.date }}">{{ page.date | date(format="%Y-%m-%d") }}</time>
+    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+  </li>
+  {% else %}
+  <li>Nothing here yet.</li>
+  {% endfor %}
+</ul>
