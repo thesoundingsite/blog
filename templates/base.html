@@ -22,5 +22,13 @@
   <main>
     {% block content %}{% endblock content %}
   </main>
+  <footer class="site-footer">
+    <a href="https://0rwx.com" title="AI:W, AI has read-write permissions (0rwx.com)">
+      <picture>
+        <source srcset="{{ get_url(path='0rwx/AI-W-dark.svg') }}" media="(prefers-color-scheme: dark)">
+        <img src="{{ get_url(path='0rwx/AI-W-light.svg') }}" alt="AI:W" width="32" height="32">
+      </picture>
+    </a>
+  </footer>
 </body>
 </html>

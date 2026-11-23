@@ -30,3 +30,11 @@ nav a:first-child { margin-left: 0; }
 pre { overflow-x: auto; padding: .75rem 1rem; border-radius: 4px; background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
 code { font-size: .92em; }
 img { max-width: 100%; height: auto; }
+.site-footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 15%, var(--bg));
+  display: flex;
+  justify-content: center;
+}
+.site-footer img { display: block; }
