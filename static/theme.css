@@ -1,0 +1,136 @@
+/*
+ * The theme every Sounding site shares: the colour and type tokens, the
+ * three-state appearance choice on <html data-theme>, and the appearance
+ * control. The product's own pages link it ahead of styles.css; a site
+ * without the wasm (the blog, the pricing demo) copies this file verbatim
+ * along with web-rs/prefs/theme.js and the control's markup in
+ * web-rs/prefs/theme-switch.html (README.md beside this file says how).
+ * Nothing in it may depend on styles.css, so it stands alone there.
+ */
+
+/*
+ * Appearance is three-state: the system's
+ * preference by default, or a person's own light or dark choice stamped on
+ * <html data-theme>. Every colour token names both its values here and
+ * `color-scheme` picks between them, so the choice is one property rather
+ * than a second palette to keep in step — and the native controls (the
+ * language select and its dropdown) follow that same property.
+ */
+:root {
+  color-scheme: light dark;
+  --fg: light-dark(#1a1a1a, #e8e8e8);
+  --bg: light-dark(#fafafa, #17191c);
+  --accent: light-dark(#1e5f8c, #6fb3e0);
+  /* An edge, not a tint: inputs, selects and the invite-link box end here,
+     so it holds 3:1 against the page in both schemes (WCAG 1.4.11). */
+  --border: light-dark(#8a8a8a, #6a6e75);
+  /* The one red is too dark for the dark page (2.4:1); its dark value is a
+     lighter red that measures the same way the light one does. */
+  --error: light-dark(#a3241f, #ff7b73);
+  --ok: light-dark(#1e6f3e, #6fce96);
+  /*
+   * Three greys, by what they may colour. --dim measures 3.8:1 against the
+   * light background, under AA for text, so it stays inside the trace
+   * drawer — phase headers, directions, sizes, notes, the detail under a
+   * row — where the log's density wants the hierarchy; nothing a person is
+   * asked to read or press outside the drawer uses it. --faint is for what
+   * repeats information already in the text beside it: the trace
+   * timestamps and the rules around a phase header. --quiet clears 4.5:1 in
+   * both schemes (measured in web-rs/prefs/tests/contrast.rs) and is the
+   * colour of every quiet *text*: hints, the header row, the trace toggle,
+   * the account line, the SAS words.
+   */
+  --dim: color-mix(in srgb, var(--fg) 55%, transparent);
+  --faint: color-mix(in srgb, var(--fg) 35%, transparent);
+  --quiet: color-mix(in srgb, var(--fg) 70%, transparent);
+  --trace-bg: light-dark(
+    color-mix(in srgb, var(--fg) 4%, var(--bg)),
+    color-mix(in srgb, #000 25%, var(--bg))
+  );
+  --row-hover: color-mix(in srgb, var(--accent) 8%, transparent);
+  /*
+   * The type scale: one hero per screen — the
+   * title, the check words, the answer — and everything else stays in the
+   * sm/base band so the hero has nothing to compete with. Every font-size
+   * in this sheet names one of the five (the trace caret, a glyph scaled to
+   * its button, is the one em value); --text-sm is the floor, the trace
+   * drawer included.
+   */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.15rem;
+  --text-xl: 1.4rem;
+  --text-2xl: 1.75rem;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* A person's own choice, stamped before first paint by the shells' inline
+   script and again by the theme control. No attribute means the system
+   decides, which is the default and the state the control calls Auto. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* The appearance control: the three states side
+   by side in one segmented group, the one in force filled. Quiet enough to
+   sit beside the language control without either shouting. */
+.theme-switch {
+  /* Inline, so on a page that sets it in running content it is as wide as
+     its three buttons; in the product's header row it is a flex item
+     either way. */
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  overflow: hidden;
+}
+
+.theme-switch button {
+  margin: 0;
+  min-height: 2.75rem; /* ≥44px touch target */
+  padding: 0 0.5rem;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  /* What styles.css's base button gives the product's pages, said here so
+     the control looks and behaves the same on a page without it. */
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.theme-switch button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-switch button + button {
+  border-inline-start: 1px solid var(--border);
+}
+
+.theme-switch button:hover {
+  color: var(--fg);
+  background: var(--row-hover);
+  filter: none; /* the base button's hover brightens a filled shape; this one isn't */
+}
+
+.theme-switch button[aria-pressed="true"] {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+/* On a phone the product's header closes the group up to share one row
+   with the language control (styles.css says why). */
+@media (max-width: 30rem) {
+  /* The group keeps its whole labels; the select is what yields. */
+  .theme-switch {
+    flex-shrink: 0;
+  }
+  .theme-switch button {
+    padding: 0 0.25rem;
+  }
+}

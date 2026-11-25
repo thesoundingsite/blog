@@ -5,29 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
   {% if config.description %}<meta name="description" content="{{ config.description }}">{% endif %}
+  <link rel="stylesheet" href="{{ get_url(path='theme.css', cachebust=true) }}">
   <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) }}">
-  <link rel="stylesheet" href="{{ get_url(path='giallo-light.css') }}" media="(prefers-color-scheme: light)">
-  <link rel="stylesheet" href="{{ get_url(path='giallo-dark.css') }}" media="(prefers-color-scheme: dark)">
+  <script src="{{ get_url(path='theme.js', cachebust=true) }}"></script>
+  <link id="hl-light" rel="stylesheet" href="{{ get_url(path='giallo-light.css') }}" media="(prefers-color-scheme: light)">
+  <link id="hl-dark" rel="stylesheet" href="{{ get_url(path='giallo-dark.css') }}" media="(prefers-color-scheme: dark)">
+  <script>
+    // Follow the appearance choice for the highlight sheets: theme.js stamps
+    // <html data-theme>; with no attribute (Auto) the system query decides.
+    (function () {
+      var root = document.documentElement;
+      function sync() {
+        var t = root.getAttribute("data-theme");
+        document.getElementById("hl-light").media =
+          t === "light" ? "all" : t === "dark" ? "not all" : "(prefers-color-scheme: light)";
+        document.getElementById("hl-dark").media =
+          t === "dark" ? "all" : t === "light" ? "not all" : "(prefers-color-scheme: dark)";
+      }
+      sync();
+      new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    })();
+  </script>
   <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
 </head>
 <body>
   <header class="site-header">
     <a class="site-title" href="{{ config.base_url }}">{{ config.title }}</a>
-    <nav>
-      <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-      <a href="{{ get_url(path='tags') }}">Tags</a>
-      <a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">Feed</a>
-    </nav>
+    <div class="site-controls">
+      <nav>
+        <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
+        <a href="{{ get_url(path='tags') }}">Tags</a>
+        <a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">Feed</a>
+      </nav>
+      <!-- The appearance control for a site without the wasm: paste it where the
+           control goes, link theme.css, and load theme.js as a classic script in
+           the head. It is ThemeSwitch's own English render plus data-theme-switch
+           and each button's value, which theme.js reads (tests/render.rs pins
+           the two together). Auto shows pressed until theme.js marks the stored
+           choice. -->
+      <div role="group" aria-label="Appearance" class="theme-switch" data-theme-switch>
+        <button type="button" value="auto" aria-pressed="true">Auto</button>
+        <button type="button" value="light" aria-pressed="false">Light</button>
+        <button type="button" value="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
   </header>
   <main>
     {% block content %}{% endblock content %}
   </main>
   <footer class="site-footer">
     <a href="https://0rwx.com" title="AI:W, AI has read-write permissions (0rwx.com)">
-      <picture>
-        <source srcset="{{ get_url(path='0rwx/AI-W-dark.svg') }}" media="(prefers-color-scheme: dark)">
-        <img src="{{ get_url(path='0rwx/AI-W-light.svg') }}" alt="AI:W" width="32" height="32">
-      </picture>
+      <img class="aiw aiw-light" src="{{ get_url(path='0rwx/AI-W-light.svg') }}" alt="AI:W" width="32" height="32">
+      <img class="aiw aiw-dark" src="{{ get_url(path='0rwx/AI-W-dark.svg') }}" alt="" width="32" height="32">
     </a>
   </footer>
 </body>

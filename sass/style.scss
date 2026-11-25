@@ -1,11 +1,8 @@
 :root {
-  --fg: #1d1d1f;
-  --bg: #fdfdfc;
-  --muted: #6b6b70;
-  --accent: #2f5d8a;
-}
-@media (prefers-color-scheme: dark) {
-  :root { --fg: #e6e6e3; --bg: #151517; --muted: #9a9aa0; --accent: #8ab4dc; }
+  // Colours come from the shared theme.css (linked before this sheet).
+  // --quiet, not --dim: dates and post metadata are text people read, and
+  // theme.css reserves --dim (3.8:1) for non-essential detail.
+  --muted: var(--quiet);
 }
 body {
   max-width: 42rem;
@@ -18,7 +15,7 @@ body {
 a { color: var(--accent); }
 .site-header {
   display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
-  align-items: baseline; justify-content: space-between;
+  align-items: center; justify-content: space-between;
   margin-bottom: 2.5rem;
 }
 .site-title { font-weight: 700; text-decoration: none; color: var(--fg); }
@@ -38,3 +35,12 @@ img { max-width: 100%; height: auto; }
   justify-content: center;
 }
 .site-footer img { display: block; }
+.site-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
+// The AI:W badge in the scheme in force; a media query alone can't see a manual choice.
+.aiw-dark { display: none; }
+:root[data-theme="dark"] .aiw-light { display: none; }
+:root[data-theme="dark"] .aiw-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .aiw-light { display: none; }
+  :root:not([data-theme="light"]) .aiw-dark { display: block; }
+}
