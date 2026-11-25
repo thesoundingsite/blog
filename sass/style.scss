@@ -19,28 +19,16 @@ a { color: var(--accent); }
   margin-bottom: 2.5rem;
 }
 .site-title { font-weight: 700; text-decoration: none; color: var(--fg); }
-nav a { margin-left: 1rem; }
-nav a:first-child { margin-left: 0; }
+.site-header nav a { margin-left: 1rem; }
+.site-header nav a:first-child { margin-left: 0; }
 .post-list { list-style: none; padding: 0; }
 .post-list li { margin: .4rem 0; }
 .post-list time, .meta { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: .75rem; }
 pre { overflow-x: auto; padding: .75rem 1rem; border-radius: 4px; background: color-mix(in srgb, var(--fg) 6%, var(--bg)); }
 code { font-size: .92em; }
 img { max-width: 100%; height: auto; }
-.site-footer {
-  margin-top: 4rem;
-  padding-top: 1rem;
-  border-top: 1px solid color-mix(in srgb, var(--fg) 15%, var(--bg));
-  display: flex;
-  justify-content: center;
-}
-.site-footer img { display: block; }
+// The shared footer (theme.css's .sounding-footer) draws its own rule and
+// padding; this element only spaces it from the page. Never set display on
+// footer images here: it outranks theme.css's badge switching.
+.site-footer { margin-top: 4rem; }
 .site-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
-// The AI:W badge in the scheme in force; a media query alone can't see a manual choice.
-.aiw-dark { display: none; }
-:root[data-theme="dark"] .aiw-light { display: none; }
-:root[data-theme="dark"] .aiw-dark { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .aiw-light { display: none; }
-  :root:not([data-theme="light"]) .aiw-dark { display: block; }
-}

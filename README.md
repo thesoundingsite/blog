@@ -13,3 +13,9 @@ there and are copied back.
 
 Copied from: `public/web/src/theme.css`, `public/web-rs/prefs/theme.js`,
 `public/web-rs/prefs/theme-switch.html` at commit 2729f93.
+
+The footer markup inside `<footer class="site-footer">` is the English render
+of the `PageFooter` component, and `static/theme.css` was refreshed with its
+styles, from branch `wip/shared-footer` at commit 5eed1bf (to be updated to
+the `main` commit once merged). The badge images in `static/0rwx/` are
+byte-identical to 0rwx.com's, released into the public domain (CC0).

@@ -55,10 +55,25 @@
     {% block content %}{% endblock content %}
   </main>
   <footer class="site-footer">
-    <a href="https://0rwx.com" title="AI:W, AI has read-write permissions (0rwx.com)">
-      <img class="aiw aiw-light" src="{{ get_url(path='0rwx/AI-W-light.svg') }}" alt="AI:W" width="32" height="32">
-      <img class="aiw aiw-dark" src="{{ get_url(path='0rwx/AI-W-dark.svg') }}" alt="" width="32" height="32">
-    </a>
+    <!-- The footer every Sounding site shares, for a site without the wasm: paste
+         it inside the site's own <footer>, link theme.css (which styles it and
+         shows the badge for the scheme in force), and serve 0rwx's two badge
+         images (web-rs/prefs/0rwx/) from /0rwx/. It is PageFooter's own English
+         render over that directory (tests/render.rs pins the two together), so
+         change the component, never this copy alone. -->
+    <div class="sounding-footer">
+      <nav aria-label="Sounding sites">
+        <a href="https://thesounding.site/">Sounding</a>
+        <a href="https://free.thesounding.site/">Free version</a>
+        <a href="https://pricing.thesounding.site/">Pricing demo</a>
+        <a href="https://blog.thesounding.site/">Blog</a>
+        <a href="https://github.com/thesoundingsite/sounding">Source</a>
+      </nav>
+      <a href="https://0rwx.com/" title="AI:W, AI has read-write permissions (0rwx.com)" class="ai-badge">
+        <img src="/0rwx/AI-W-light.svg" alt="AI:W" width="32" height="32" class="ai-badge-light">
+        <img src="/0rwx/AI-W-dark.svg" alt="" width="32" height="32" class="ai-badge-dark">
+      </a>
+    </div>
   </footer>
 </body>
 </html>
