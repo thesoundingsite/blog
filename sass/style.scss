@@ -32,3 +32,8 @@ img { max-width: 100%; height: auto; }
 // footer images here: it outranks theme.css's badge switching.
 .site-footer { margin-top: 4rem; }
 .site-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
+// A post's 0rwx badge sits at the end of its meta line; theme.css's
+// .ai-badge-light/.ai-badge-dark pick the image for the scheme in force.
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .5rem; }
+.meta time { margin-right: 0; }
+.post-ai-badge { display: inline-flex; }

@@ -8,6 +8,13 @@
     {% if page.taxonomies.tags %}·
       {% for tag in page.taxonomies.tags %}<a href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}
     {% endif %}
+    {% for tag in page.taxonomies.tags | default(value=[]) %}{% if tag in ["AI:0", "AI:R", "AI:W", "AI:X"] %}
+    {% set badge = tag | replace(from=":", to="-") %}
+    <a class="post-ai-badge" href="https://0rwx.com/" title="{{ tag }} (0rwx.com)">
+      <img src="{{ get_url(path='0rwx/' ~ badge ~ '-light.svg') }}" alt="{{ tag }}" width="24" height="24" class="ai-badge-light">
+      <img src="{{ get_url(path='0rwx/' ~ badge ~ '-dark.svg') }}" alt="" width="24" height="24" class="ai-badge-dark">
+    </a>
+    {% endif %}{% endfor %}
   </p>
   {{ page.content | safe }}
 </article>

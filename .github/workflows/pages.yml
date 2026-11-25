@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Check every post has one AI tag
+        run: python3 scripts/check-ai-tags.py
       - uses: cachix/install-nix-action@v32
       - name: Build site
         run: |
