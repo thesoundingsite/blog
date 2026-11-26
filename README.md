@@ -4,21 +4,25 @@ Zola site. `nix develop` for a shell with zola (`zola serve` to preview);
 `nix build` renders the site into `./result`. Pushes to `main` deploy to
 GitHub Pages via `.github/workflows/pages.yml`.
 
-## Shared theme
+## Shared theme, footer and brand
 
-`static/theme.css`, `static/theme.js` and the appearance control's markup in
-`templates/base.html` (the `data-theme-switch` group) are verbatim copies from
-the Sounding product repo, which owns them. Don't edit them here; changes go
-there and are copied back.
+These are verbatim copies from the Sounding product repo, which owns them.
+Don't edit them here; changes go there and are copied back.
 
-Copied from: `public/web/src/theme.css`, `public/web-rs/prefs/theme.js`,
-`public/web-rs/prefs/theme-switch.html` at commit 2729f93.
+- `static/theme.css`, `static/theme.js`
+- `static/brand/` (logo font, its licence `OFL.txt`, favicons; see its
+  README), plus `static/favicon.ico`, a copy of `brand/favicon.ico` for
+  browsers that ask for it at the root
+- In `templates/base.html`: the appearance control (the `data-theme-switch`
+  group) and everything inside `<footer class="site-footer">`, pasted without
+  their leading comments
 
-The footer markup inside `<footer class="site-footer">` is the English render
-of the `PageFooter` component, and `static/theme.css` was refreshed with its
-styles, from branch `wip/shared-footer` at commit 5eed1bf (to be updated to
-the `main` commit once merged). The badge images in `static/0rwx/` are
-byte-identical to 0rwx.com's, released into the public domain (CC0).
+Last copied 2026-11-26 from the product repo's `main` (no commit hash was
+given; the files' SHA-256s were checked against the list sent with them):
+theme.css `45817a54…`, theme-switch.html `32eab147…`, footer.html
+`dbabb167…`, theme.js `a6ea54be…` (unchanged). The 0rwx badges in
+`static/0rwx/` are byte-identical to 0rwx.com's, released into the public
+domain (CC0).
 
 ## AI labels on posts
 

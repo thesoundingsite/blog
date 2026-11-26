@@ -8,6 +8,18 @@
  * Nothing in it may depend on styles.css, so it stands alone there.
  */
 
+/* The wordmark's typeface, self-hosted: the CSP takes fonts from the page's
+   own origin alone. The file carries only the letters of thesounding.site
+   (web-rs/prefs/brand/README.md), and every site ships brand/ beside this
+   sheet, hence the relative URL. Swap: the system font shows until it
+   arrives rather than nothing. */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("brand/SpaceGrotesk-thesounding.woff2") format("woff2");
+  font-weight: 400 600;
+  font-display: swap;
+}
+
 /*
  * Appearance is three-state: the system's
  * preference by default, or a person's own light or dark choice stamped on
@@ -89,9 +101,15 @@
 }
 
 .theme-switch button {
+  /* Each state is an icon (its name is the label and the title), so each
+     button is a square touch target, the same in every language. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   min-height: 2.75rem; /* ≥44px touch target */
-  padding: 0 0.5rem;
+  width: 2.75rem;
+  padding: 0;
   border: none;
   border-radius: 0;
   background: none;
@@ -123,22 +141,24 @@
   background: color-mix(in srgb, var(--fg) 10%, transparent);
 }
 
-/* On a phone the product's header closes the group up to share one row
-   with the language control (styles.css says why). */
+/* The icon itself: block, so no line box adds height under it. */
+.theme-switch svg {
+  display: block;
+}
+
+/* On a phone the product's header row is full (styles.css says why): the
+   group keeps its size, and the lockup beside it is what steps down. */
 @media (max-width: 30rem) {
-  /* The group keeps its whole labels; the select is what yields. */
   .theme-switch {
     flex-shrink: 0;
-  }
-  .theme-switch button {
-    padding: 0 0.25rem;
   }
 }
 
 /* The footer every Sounding site shares (web-rs/prefs/footer.rs, pasted on
-   the sites without the wasm as footer.html): the row of links to the four
-   sites and the source, then the AI:W badge. Quiet text, like the product's
-   header row; it sets no width or outer margin, which are the site's. */
+   the sites without the wasm as footer.html): the lockup on a line of its own,
+   then the row of links to the four sites and the source, and the AI:W
+   badge. Quiet text, like the product's header row; it sets no width or
+   outer margin, which are the site's. */
 .sounding-footer {
   display: flex;
   flex-wrap: wrap;
@@ -192,4 +212,89 @@
   :root:not([data-theme="light"]) .ai-badge-dark {
     display: block;
   }
+}
+
+/* The logo (web-rs/prefs/src/brand.rs, pasted as lockup.html): its strokes
+   take the page's tokens, so it follows the appearance choice the way the
+   text does. Ink for the S, accent for the pings, the echoes and the dots. */
+.logo-ink {
+  fill: none;
+  stroke: var(--fg);
+}
+.logo-accent {
+  fill: none;
+  stroke: var(--accent);
+}
+.logo-accent-fill {
+  fill: var(--accent);
+}
+
+/* The lockup: the logo, then the domain in Space Grotesk — "the" and "site"
+   quiet, "sounding" heavier, and the full stop a drawn accent dot about the
+   size of the logo's own. The logo's height follows the type, its width the
+   logo's own proportions, so one font-size sizes the whole lockup. */
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  white-space: nowrap;
+  line-height: 1;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: var(--text-lg);
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+}
+.lockup .logo {
+  height: 1.9em;
+  width: auto;
+  flex: none;
+}
+.lockup-the,
+.lockup-site {
+  font-weight: 400;
+  color: var(--quiet);
+}
+.lockup-name {
+  font-weight: 600;
+}
+.lockup-dot {
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  margin: 0 0.07em;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.lockup:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A header's lockup (`lockup-steps`) steps down as its row narrows, so the
+   controls beside it keep their room: the whole domain, then the mark and
+   "sounding", then the mark alone. Measured 2026-11-26 in the product's
+   header row (Chromium): the whole lockup 175 px, mark and "sounding"
+   108 px, the controls 214 px whatever the language (the widest tag, RU,
+   is under a pixel wider than EN), plus the row's gaps (0.5rem on a phone,
+   styles.css) and the column's 2.5rem of padding. Each step leaves a few
+   pixels to spare: the whole lockup from 441 px, "sounding" from 369. */
+@media (max-width: 27.5rem) {
+  .lockup-steps .lockup-the,
+  .lockup-steps .lockup-dot,
+  .lockup-steps .lockup-site {
+    display: none;
+  }
+}
+@media (max-width: 23rem) {
+  .lockup-steps .lockup-word {
+    display: none;
+  }
+}
+
+/* The footer's lockup is whole and has a line of its own above the links. */
+.sounding-footer .lockup {
+  flex-basis: 100%;
+  justify-content: center;
+  font-size: var(--text-base);
 }
